@@ -1,0 +1,42 @@
+{
+    "name": "tooinfinity/breeze-auth-module",
+    "description": "this package like breeze but adding support to laravel modules",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Tooinfinity\\BreezeAuthModule\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "tooinfinity",
+            "email": "touwfiqdev@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.2.0",
+        "illuminate/console": "^11.0",
+        "illuminate/filesystem": "^11.0",
+        "illuminate/support": "^11.0",
+        "illuminate/validation": "^11.0",
+        "symfony/console": "^7.0",
+      
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Tooinfinity\\Breeze\\BreezeServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require-dev": {
+        "orchestra/testbench": "^9.0",
+        "phpstan/phpstan": "^1.10"
+    }
+}
