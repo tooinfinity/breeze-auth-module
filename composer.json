@@ -1,7 +1,6 @@
 {
     "name": "tooinfinity/auth-module",
     "description": "this package like breeze but adding support to laravel modules",
-    "type": "project",
     "license": "MIT",
     "autoload": {
         "psr-4": {
