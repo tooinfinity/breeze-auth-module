@@ -1,11 +1,11 @@
 <?php
 
-namespace Tooinfinity\BreezeAuthModule;
+namespace Tooinfinity\AuthModule;
 
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 
-class BreezeAuthModuleServiceProvider extends ServiceProvider implements DeferrableProvider
+class AuthModuleServiceProvider extends ServiceProvider implements DeferrableProvider
 {
     /**
      * Register any application services.
@@ -22,7 +22,7 @@ class BreezeAuthModuleServiceProvider extends ServiceProvider implements Deferra
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         if (! $this->app->runningInConsole()) {
             return;
@@ -38,7 +38,7 @@ class BreezeAuthModuleServiceProvider extends ServiceProvider implements Deferra
      *
      * @return array
      */
-    public function provides()
+    public function provides(): array
     {
         return [Console\InstallCommand::class];
     }

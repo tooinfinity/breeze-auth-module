@@ -1,6 +1,6 @@
 <?php
 
-namespace Tooinfinity\Breeze\Console;
+namespace Tooinfinity\AuthModule\Console;
 
 use Illuminate\Filesystem\Filesystem;
 
@@ -18,14 +18,15 @@ trait InstallsApiStack
         $files = new Filesystem;
 
         // Controllers...
-        $files->ensureDirectoryExists(app_path('Http/Controllers/Auth'));
-        $files->copyDirectory(__DIR__.'/../../stubs/api/app/Http/Controllers/Auth', app_path('Http/Controllers/Auth'));
+        $files->ensureDirectoryExists(base_path('Modules/Auth/app/Http/Controllers/Auth'));
+        $files->copyDirectory(__DIR__.'/../../stubs/api/app/Http/Controllers/Auth', base_path('Modules/Auth/app/Http/Controllers/Auth'));
 
         // Middleware...
-        $files->copyDirectory(__DIR__.'/../../stubs/api/app/Http/Middleware', app_path('Http/Middleware'));
+        $files->ensureDirectoryExists(base_path('Modules/Auth/app/Http/Middleware'));
+        $files->copyDirectory(__DIR__.'/../../stubs/api/app/Http/Middleware', base_path('Modules/Auth/app/Http/Middleware'));
 
         $this->installMiddlewareAliases([
-            'verified' => '\App\Http\Middleware\EnsureEmailIsVerified::class',
+            'verified' => '\Modules\Auth\app\Http\Middleware\EnsureEmailIsVerified::class',
         ]);
 
         $this->installMiddleware([
@@ -33,19 +34,20 @@ trait InstallsApiStack
         ], 'api', 'prepend');
 
         // Requests...
-        $files->ensureDirectoryExists(app_path('Http/Requests/Auth'));
-        $files->copyDirectory(__DIR__.'/../../stubs/api/app/Http/Requests/Auth', app_path('Http/Requests/Auth'));
+        $files->ensureDirectoryExists(base_path('Modules/Auth/app/Http/Requests/Auth'));
+        $files->copyDirectory(__DIR__.'/../../stubs/api/app/Http/Requests/Auth', base_path('Modules/Auth/app/Http/Requests/Auth'));
 
         // Providers...
-        $files->copyDirectory(__DIR__.'/../../stubs/api/app/Providers', app_path('Providers'));
+        $files->ensureDirectoryExists(base_path('Modules/Auth/app/Providers'));
+        $files->copyDirectory(__DIR__.'/../../stubs/api/app/Providers', base_path('Modules/Auth/app/Providers'));
 
         // Routes...
-        copy(__DIR__.'/../../stubs/api/routes/api.php', base_path('routes/api.php'));
-        copy(__DIR__.'/../../stubs/api/routes/web.php', base_path('routes/web.php'));
-        copy(__DIR__.'/../../stubs/api/routes/auth.php', base_path('routes/auth.php'));
+        copy(__DIR__.'/../../stubs/api/routes/api.php', base_path('Modules/Auth/routes/api.php'));
+        copy(__DIR__.'/../../stubs/api/routes/web.php', base_path('Modules/Auth/routes/web.php'));
+        copy(__DIR__.'/../../stubs/api/routes/auth.php', base_path('Modules/Auth/routes/auth.php'));
 
         // Configuration...
-        $files->copyDirectory(__DIR__.'/../../stubs/api/config', config_path());
+        $files->copyDirectory(__DIR__.'/../../stubs/api/config', base_path('Modules/Auth/config'));
 
         // Environment...
         if (! $files->exists(base_path('.env'))) {
@@ -67,7 +69,7 @@ trait InstallsApiStack
         // Cleaning...
         $this->removeScaffoldingUnnecessaryForApis();
 
-        $this->components->info('Breeze scaffolding installed successfully.');
+        $this->components->info('Auth Module scaffolding installed successfully.');
     }
 
     /**
@@ -80,15 +82,15 @@ trait InstallsApiStack
         $files = new Filesystem;
 
         // Remove frontend related files...
-        $files->delete(base_path('package.json'));
-        $files->delete(base_path('vite.config.js'));
+        $files->delete(base_path('Modules/Auth/package.json'));
+        $files->delete(base_path('Modules/Auth/vite.config.js'));
 
         // Remove Laravel "welcome" view...
-        $files->delete(resource_path('views/welcome.blade.php'));
-        $files->put(resource_path('views/.gitkeep'), PHP_EOL);
+        $files->delete(base_path('Modules/Auth/resources/views/welcome.blade.php'));
+        $files->put(base_path('Modules/Auth/resources/views/.gitkeep'), PHP_EOL);
 
         // Remove CSS and JavaScript directories...
-        $files->deleteDirectory(resource_path('css'));
-        $files->deleteDirectory(resource_path('js'));
+        $files->deleteDirectory(base_path('Modules/Auth/resources/assets/sass'));
+        $files->deleteDirectory(base_path('Modules/Auth/resources/assets/js'));
     }
 }

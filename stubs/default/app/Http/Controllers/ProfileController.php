@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Modules\Auth\app\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;

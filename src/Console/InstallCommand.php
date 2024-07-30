@@ -1,6 +1,6 @@
 <?php
 
-namespace Tooinfinity\BreezeAuthModule\Console;
+namespace Tooinfinity\AuthModule\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
@@ -15,15 +15,13 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
-use Tooinfinity\Breeze\Console\InstallsApiStack;
-use Tooinfinity\Breeze\Console\InstallsBladeStack;
 
 use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\multiselect;
 use function Laravel\Prompts\select;
 
 
-#[AsCommand(name: 'too-auth:install')]
+#[AsCommand(name: 'Auth-module:install')]
 class InstallCommand extends Command implements PromptsForMissingInput
 {
     use InstallsApiStack, InstallsBladeStack;
@@ -33,7 +31,7 @@ class InstallCommand extends Command implements PromptsForMissingInput
      *
      * @var string
      */
-    protected $signature = 'breeze:install {stack : The development stack that should be installed (blade,api)}
+    protected $signature = 'breeze:install {stack : The development stack that should be installed (module-blade,module-api)}
                             {--dark : Indicate that dark mode support should be installed}
                             {--composer=global : Absolute path to the Composer binary which should be used to install packages}';
 
@@ -42,7 +40,7 @@ class InstallCommand extends Command implements PromptsForMissingInput
      *
      * @var string
      */
-    protected $description = 'Install the Breeze controllers and resources';
+    protected $description = 'Install the Auth Module controllers and resources';
 
     /**
      * Execute the console command.
@@ -52,13 +50,13 @@ class InstallCommand extends Command implements PromptsForMissingInput
     public function handle(): ?int
     {
 
-       if ($this->argument('stack') === 'api') {
+       if ($this->argument('stack') === 'module-api') {
             return $this->installApiStack();
-       } elseif ($this->argument('stack') === 'blade') {
+       } elseif ($this->argument('stack') === 'module-blade') {
             return $this->installBladeStack();
        }
 
-        $this->components->error('Invalid stack. Supported stacks are [blade],[api].');
+        $this->components->error('Invalid stack. Supported stacks are [module-blade],[module-api].');
 
         return 1;
     }
@@ -240,7 +238,7 @@ class InstallCommand extends Command implements PromptsForMissingInput
      */
     protected static function updateNodePackages(callable $callback, bool $dev = true): void
     {
-        if (! file_exists(base_path('package.json'))) {
+        if (! file_exists(base_path('Modules/Auth/package.json'))) {
             return;
         }
 
@@ -344,10 +342,10 @@ class InstallCommand extends Command implements PromptsForMissingInput
     {
         return [
             'stack' => fn () => select(
-                label: 'Which Breeze stack would you like to install?',
+                label: 'Which auth-Module stack would you like to install?',
                 options: [
-                    'blade' => 'Blade with Alpine',
-                    'api' => 'API only',
+                    'module-blade' => 'Blade with Alpine',
+                    'module-api' => 'API only',
 
                 ],
                 scroll: 2,
@@ -366,7 +364,7 @@ class InstallCommand extends Command implements PromptsForMissingInput
     {
         $stack = $input->getArgument('stack');
 
-        if ($stack == 'blade') {
+        if ($stack == 'module-blade') {
             $input->setOption('dark', confirm(
                 label: 'Would you like dark mode support?',
                 default: false

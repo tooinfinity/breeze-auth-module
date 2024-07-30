@@ -1,11 +1,11 @@
 {
-    "name": "tooinfinity/breeze-auth-module",
+    "name": "tooinfinity/auth-module",
     "description": "this package like breeze but adding support to laravel modules",
     "type": "project",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Tooinfinity\\BreezeAuthModule\\": "src/"
+            "Tooinfinity\\AuthModule\\": "src/"
         }
     },
     "authors": [
@@ -20,15 +20,26 @@
         "illuminate/filesystem": "^11.0",
         "illuminate/support": "^11.0",
         "illuminate/validation": "^11.0",
-        "symfony/console": "^7.0",
-      
+        "symfony/console": "^7.1.3",
+        "nwidart/laravel-modules": "^11.0.11"
+
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Tooinfinity\\Breeze\\BreezeServiceProvider"
+                "Tooinfinity\\AuthModule\\AuthModuleServiceProvider"
             ]
         }
+    },
+    "scripts": {
+      "post-install-cmd": [
+        "@php artisan package:discover --ansi",
+        "composer require nwidart/laravel-modules",
+        "php artisan vendor:publish --provider=\"Nwidart\\Modules\\LaravelModulesServiceProvider\"",
+        "composer dump-autoload",
+        "php artisan module:make Auth",
+        "php artisan module:make-model User Auth"
+      ]
     },
     "config": {
         "sort-packages": true

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tooinfinity\Breeze\Console;
+namespace Tooinfinity\AuthModule\Console;
 
 use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
@@ -26,20 +26,20 @@ trait InstallsBladeStack
         });
 
         // Controllers...
-        (new Filesystem)->ensureDirectoryExists(app_path('Http/Controllers'));
-        (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/default/app/Http/Controllers', app_path('Http/Controllers'));
+        (new Filesystem)->ensureDirectoryExists(base_path('Modules/Auth/app/Http/Controllers'));
+        (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/default/app/Http/Controllers', base_path('Modules/Auth/app/Http/Controllers'));
 
         // Requests...
-        (new Filesystem)->ensureDirectoryExists(app_path('Http/Requests'));
-        (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/default/app/Http/Requests', app_path('Http/Requests'));
+        (new Filesystem)->ensureDirectoryExists(base_path('Modules/Auth/app/Http/Requests'));
+        (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/default/app/Http/Requests', base_path('Modules/Auth/app/Http/Requests'));
 
         // Views...
-        (new Filesystem)->ensureDirectoryExists(resource_path('views'));
-        (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/default/resources/views', resource_path('views'));
+        (new Filesystem)->ensureDirectoryExists(base_path('Modules/Auth/resources/views'));
+        (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/default/resources/views', base_path('Modules/Auth/resources/views'));
 
         if (! $this->option('dark')) {
             $this->removeDarkClasses((new Finder)
-                ->in(resource_path('views'))
+                ->in(base_path('Modules/Auth/resources/views'))
                 ->name('*.blade.php')
                 ->notPath('livewire/welcome/navigation.blade.php')
                 ->notName('welcome.blade.php')
@@ -47,8 +47,8 @@ trait InstallsBladeStack
         }
 
         // Components...
-        (new Filesystem)->ensureDirectoryExists(app_path('View/Components'));
-        (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/default/app/View/Components', app_path('View/Components'));
+        (new Filesystem)->ensureDirectoryExists(base_path('Modules/Auth/app/View/Components'));
+        (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/default/app/View/Components', base_path('Modules/Auth/app/View/Components'));
 
         // Tests...
         /*if (! $this->installTests()) {
@@ -56,19 +56,19 @@ trait InstallsBladeStack
         }*/
 
         // Routes...
-        copy(__DIR__.'/../../stubs/default/routes/web.php', base_path('routes/web.php'));
-        copy(__DIR__.'/../../stubs/default/routes/auth.php', base_path('routes/auth.php'));
+        copy(__DIR__.'/../../stubs/default/routes/web.php', base_path('Modules/Auth/routes/web.php'));
+        copy(__DIR__.'/../../stubs/default/routes/auth.php', base_path('Modules/Auth/routes/auth.php'));
 
         // "Dashboard" Route...
-        $this->replaceInFile('/home', '/dashboard', resource_path('views/welcome.blade.php'));
-        $this->replaceInFile('Home', 'Dashboard', resource_path('views/welcome.blade.php'));
+        $this->replaceInFile('/home', '/dashboard', base_path('Modules/Auth/resources/views/welcome.blade.php'));
+        $this->replaceInFile('Home', 'Dashboard', base_path('Modules/Auth/resources/views/welcome.blade.php'));
 
         // Tailwind / Vite...
-        copy(__DIR__.'/../../stubs/default/tailwind.config.js', base_path('tailwind.config.js'));
-        copy(__DIR__.'/../../stubs/default/postcss.config.js', base_path('postcss.config.js'));
-        copy(__DIR__.'/../../stubs/default/vite.config.js', base_path('vite.config.js'));
-        copy(__DIR__.'/../../stubs/default/resources/css/app.css', resource_path('css/app.css'));
-        copy(__DIR__.'/../../stubs/default/resources/js/app.js', resource_path('js/app.js'));
+        copy(__DIR__.'/../../stubs/default/tailwind.config.js', base_path('Modules/Auth/tailwind.config.js'));
+        copy(__DIR__.'/../../stubs/default/postcss.config.js', base_path('Modules/Auth/postcss.config.js'));
+        copy(__DIR__.'/../../stubs/default/vite.config.js', base_path('Modules/Auth/vite.config.js'));
+        copy(__DIR__.'/../../stubs/default/resources/css/app.css', base_path('Modules/Auth/resources/assets/css/app.css'));
+        copy(__DIR__.'/../../stubs/default/resources/js/app.js', base_path('Modules/Auth/resources/assets/js/app.js'));
 
         $this->components->info('Installing and building Node dependencies.');
 
@@ -81,6 +81,6 @@ trait InstallsBladeStack
         }
 
         $this->line('');
-        $this->components->info('Breeze scaffolding installed successfully.');
+        $this->components->info('Auth Module scaffolding installed successfully.');
     }
 }
