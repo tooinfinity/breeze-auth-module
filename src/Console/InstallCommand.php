@@ -21,7 +21,7 @@ use function Laravel\Prompts\multiselect;
 use function Laravel\Prompts\select;
 
 
-#[AsCommand(name: 'Auth-module:install')]
+#[AsCommand(name: 'auth-module:install')]
 class InstallCommand extends Command implements PromptsForMissingInput
 {
     use InstallsApiStack, InstallsBladeStack;
@@ -31,7 +31,7 @@ class InstallCommand extends Command implements PromptsForMissingInput
      *
      * @var string
      */
-    protected $signature = 'breeze:install {stack : The development stack that should be installed (module-blade,module-api)}
+    protected $signature = 'auth-module:install {stack : The development stack that should be installed (module-blade,module-api)}
                             {--dark : Indicate that dark mode support should be installed}
                             {--composer=global : Absolute path to the Composer binary which should be used to install packages}';
 
