@@ -77,7 +77,7 @@ class InstallCommand extends Command implements PromptsForMissingInput
             default => 'default',
         };
 
-        if ($this->option('pest') || $this->isUsingPest()) {
+        /*if ($this->option('pest') || $this->isUsingPest()) {
             if ($this->hasComposerPackage('phpunit/phpunit')) {
                 $this->removeComposerPackages(['phpunit/phpunit'], true);
             }
@@ -89,9 +89,9 @@ class InstallCommand extends Command implements PromptsForMissingInput
             (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/'.$stubStack.'/pest-tests/Feature', base_path('tests/Feature'));
             (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/'.$stubStack.'/pest-tests/Unit', base_path('tests/Unit'));
             (new Filesystem)->copy(__DIR__.'/../../stubs/'.$stubStack.'/pest-tests/Pest.php', base_path('tests/Pest.php'));
-        } else {
+        } else {*/
             (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/'.$stubStack.'/tests/Feature', base_path('tests/Feature'));
-        }
+        /*}*/
 
         return true;
     }
@@ -368,11 +368,11 @@ class InstallCommand extends Command implements PromptsForMissingInput
             ));
         }
 
-        $input->setOption('pest', select(
+        /*$input->setOption('pest', select(
                 label: 'Which testing framework do you prefer?',
                 options: ['Pest', 'PHPUnit'],
                 default: $this->isUsingPest() ? 'Pest' : 'PHPUnit',
-            ) === 'Pest');
+            ) === 'Pest');*/
     }
 
     /**
