@@ -33,11 +33,7 @@
     "scripts": {
       "post-install-cmd": [
         "@php artisan package:discover --ansi",
-        "composer require nwidart/laravel-modules",
-        "php artisan vendor:publish --provider=\"Nwidart\\Modules\\LaravelModulesServiceProvider\"",
-        "composer dump-autoload",
-        "php artisan module:make Auth",
-        "php artisan module:make-model User Auth"
+        "composer require nwidart/laravel-modules"
       ]
     },
     "config": {

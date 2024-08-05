@@ -51,9 +51,9 @@ trait InstallsBladeStack
         (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/default/app/View/Components', base_path('Modules/Auth/app/View/Components'));
 
         // Tests...
-        /*if (! $this->installTests()) {
+        if (! $this->installTests()) {
             return 1;
-        }*/
+        }
 
         // Routes...
         copy(__DIR__.'/../../stubs/default/routes/web.php', base_path('Modules/Auth/routes/web.php'));

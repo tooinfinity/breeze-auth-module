@@ -31,7 +31,7 @@ class InstallCommand extends Command implements PromptsForMissingInput
      *
      * @var string
      */
-    protected $signature = 'auth-module:install {stack : The development stack that should be installed (module-blade,module-api)}
+    protected $signature = 'auth-module:install {stack : The development stack that should be installed (blade,api)}
                             {--dark : Indicate that dark mode support should be installed}
                             {--composer=global : Absolute path to the Composer binary which should be used to install packages}';
 
@@ -50,13 +50,13 @@ class InstallCommand extends Command implements PromptsForMissingInput
     public function handle(): ?int
     {
 
-       if ($this->argument('stack') === 'module-api') {
+       if ($this->argument('stack') === 'api') {
             return $this->installApiStack();
-       } elseif ($this->argument('stack') === 'module-blade') {
+       } elseif ($this->argument('stack') === 'blade') {
             return $this->installBladeStack();
        }
 
-        $this->components->error('Invalid stack. Supported stacks are [module-blade],[module-api].');
+        $this->components->error('Invalid stack. Supported stacks are [blade],[api].');
 
         return 1;
     }
@@ -68,15 +68,12 @@ class InstallCommand extends Command implements PromptsForMissingInput
      *
      * @return bool
      */
-    /*
     protected function installTests()
     {
         (new Filesystem)->ensureDirectoryExists(base_path('tests/Feature'));
 
         $stubStack = match ($this->argument('stack')) {
             'api' => 'api',
-            'livewire' => 'livewire-common',
-            'livewire-functional' => 'livewire-common',
             default => 'default',
         };
 
@@ -97,12 +94,12 @@ class InstallCommand extends Command implements PromptsForMissingInput
         }
 
         return true;
-    }*/
+    }
 
     /**
      * Install the given middleware names into the application.
      *
-     * @param  array|string  $name
+     * @param $names
      * @param string $group
      * @param string $modifier
      * @return void
@@ -344,8 +341,8 @@ class InstallCommand extends Command implements PromptsForMissingInput
             'stack' => fn () => select(
                 label: 'Which auth-Module stack would you like to install?',
                 options: [
-                    'module-blade' => 'Blade with Alpine',
-                    'module-api' => 'API only',
+                    'blade' => 'Blade with Alpine',
+                    'api' => 'API only',
 
                 ],
                 scroll: 2,
@@ -364,18 +361,18 @@ class InstallCommand extends Command implements PromptsForMissingInput
     {
         $stack = $input->getArgument('stack');
 
-        if ($stack == 'module-blade') {
+        if ($stack == 'blade') {
             $input->setOption('dark', confirm(
                 label: 'Would you like dark mode support?',
                 default: false
             ));
         }
 
-//        $input->setOption('pest', select(
-//                label: 'Which testing framework do you prefer?',
-//                options: ['Pest', 'PHPUnit'],
-//                default: $this->isUsingPest() ? 'Pest' : 'PHPUnit',
-//            ) === 'Pest');
+        $input->setOption('pest', select(
+                label: 'Which testing framework do you prefer?',
+                options: ['Pest', 'PHPUnit'],
+                default: $this->isUsingPest() ? 'Pest' : 'PHPUnit',
+            ) === 'Pest');
     }
 
     /**
@@ -383,9 +380,9 @@ class InstallCommand extends Command implements PromptsForMissingInput
      *
      * @return bool
      */
-//    protected function isUsingPest()
-//    {
-//        return class_exists(\Pest\TestSuite::class);
-//    }
+    protected function isUsingPest()
+    {
+        return class_exists(\Pest\TestSuite::class);
+    }
 
 }

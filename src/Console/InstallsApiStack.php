@@ -13,7 +13,7 @@ trait InstallsApiStack
      */
     protected function installApiStack(): ?int
     {
-        $this->runCommands(['php artisan install:module-api']);
+        $this->runCommands(['php artisan install:api']);
 
         $files = new Filesystem;
 
@@ -60,9 +60,9 @@ trait InstallsApiStack
         );
 
         // Tests...
-        /*if (! $this->installTests()) {
+        if (! $this->installTests()) {
             return 1;
-        }*/
+        }
 
         $files->delete(base_path('tests/Feature/Auth/PasswordConfirmationTest.php'));
 
